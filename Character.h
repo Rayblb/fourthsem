@@ -6,11 +6,13 @@
 
 
 class Character{
-private:
-	int x;
-	int y;
+//private:
+	//int x;
+	//int y;
 
 public:
+	int x;
+	int y;
 	Character(int x, int y);
 	virtual ~Character();
 	virtual void Move(const std::string& Direction);
