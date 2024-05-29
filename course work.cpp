@@ -6,9 +6,9 @@
 int main() {
     srand(static_cast<unsigned>(time(0)));
 
-    int size = 10;
+    int size = 20;
     Prey prey(0, 0);
-    Predator predator(9, 9);
+    Predator predator(19, 19);
 
     int difficulty;
     std::cout << "Choose the game difficulty (1 = easy, 2 = medium, 3 = hard): ";
@@ -19,11 +19,16 @@ int main() {
         return 1;
     }
 
-    Arena arena(size, prey, predator, 7, difficulty);
-
     std::string choice;
-    std::cout << "Choose your side (1 = prey, 2 = predator): ";
+    std::cout << "Choose your side (1 = prey ** , 2 = predator()): ";
     std::cin >> choice;
+
+    if (choice != "1" && choice != "2") {
+        std::cout << "Invalid side. Exiting game." << std::endl;
+        return 1;
+    }
+
+    Arena arena(size, prey, predator, 25, difficulty, choice);
 
     if (choice == "1") {
         // Player controls prey, predator moves towards prey
@@ -47,13 +52,7 @@ int main() {
             arena.movePrey();
         }
     }
-    else {
-        std::cout << "Invalid choice. Exiting game." << std::endl;
-        return 1;
-    }
 
     arena.playGame();
-    std::cout << "Game Over!" << std::endl;
-
     return 0;
 }
