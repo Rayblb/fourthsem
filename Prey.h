@@ -7,8 +7,9 @@ class Prey : public Character {
 public:
     Prey(int x = 0, int y = 0);
 
-    void moveRandomly();
-    void move(int direction);
+    void moveRandomly(int size);
+
+    void move(int direction, int size);
 };
 
 #endif // PREY_H

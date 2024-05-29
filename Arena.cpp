@@ -2,13 +2,24 @@
 #include <iostream>
 #include <vector>
 
-Arena::Arena(int size, Prey prey, Predator predator, int maxSteps, int difficulty)
-    : size(size), prey(prey), predator(predator), steps(0), maxSteps(maxSteps) {
-    switch (difficulty) {
-    case 1: predatorMoveDistance = 1; break;
-    case 2: predatorMoveDistance = 2; break;
-    case 3: predatorMoveDistance = 3; break;
-    default: predatorMoveDistance = 1; break;
+Arena::Arena(int size, Prey prey, Predator predator, int maxSteps, int difficulty, std::string playerSide)
+    : size(size), prey(prey), predator(predator), steps(0), maxSteps(maxSteps), playerSide(playerSide) {
+
+    if (playerSide == "1") { // Player controls prey
+        switch (difficulty) {
+        case 1: this->predatorMoveDistance = 1; break;
+        case 2: this->predatorMoveDistance = 2; break;
+        case 3: this->predatorMoveDistance = 3; break;
+        default: this->predatorMoveDistance = 1; break;
+        }
+    }
+    else if (playerSide == "2") { // Player controls predator
+        switch (difficulty) {
+        case 1: this->predatorMoveDistance = 3; break;
+        case 2: this->predatorMoveDistance = 2; break;
+        case 3: this->predatorMoveDistance = 1; break;
+        default: this->predatorMoveDistance = 1; break;
+        }
     }
 }
 
@@ -18,7 +29,7 @@ void Arena::printArena() {
     Point2D predatorPos = predator.getPosition();
 
     grid[preyPos.y][preyPos.x] = 'P';
-    grid[predatorPos.y][predatorPos.x] = '*';
+    grid[predatorPos.y][predatorPos.x] = 'X';
 
     for (const auto& row : grid) {
         for (const auto& cell : row) {
@@ -38,22 +49,22 @@ void Arena::playGame() {
 }
 
 void Arena::movePrey(int direction) {
-    prey.move(direction);
+    prey.move(direction, size);
     steps++;
 }
 
 void Arena::movePredator(int direction) {
-    predator.move(direction, predatorMoveDistance);
+    predator.move(direction, predatorMoveDistance, size);
     steps++;
 }
 
 void Arena::movePrey() {
-    prey.moveRandomly();
+    prey.moveRandomly(size);
     steps++;
 }
 
 void Arena::movePredator() {
-    predator.moveToPrey(prey, predatorMoveDistance);
+    predator.moveToPrey(prey, predatorMoveDistance, size);
     steps++;
 }
 

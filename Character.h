@@ -10,7 +10,7 @@ protected:
 public:
     Character(int x = 0, int y = 0);
 
-    void move(int dx, int dy); 
+    void move(int dx, int dy, int size);
 
     Point2D getPosition() const;
 };

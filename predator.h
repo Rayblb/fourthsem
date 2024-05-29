@@ -8,8 +8,9 @@ class Predator : public Character {
 public:
     Predator(int x = 0, int y = 0);
 
-    void moveToPrey(const Prey& prey, int maxDistance); 
-    void move(int direction, int distance);
+    void moveToPrey(const Prey& prey, int maxDistance, int size);
+
+    void move(int direction, int distance, int size);
 };
 
 #endif // PREDATOR_H

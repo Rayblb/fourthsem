@@ -1,10 +1,10 @@
 #include "Predator.h"
-#include <algorithm> 
-#include <cmath> 
+#include <algorithm>
+#include <cmath>
 
 Predator::Predator(int x, int y) : Character(x, y) {}
 
-void Predator::moveToPrey(const Prey& prey, int maxDistance) {
+void Predator::moveToPrey(const Prey& prey, int maxDistance, int size) {
     Point2D preyPosition = prey.getPosition();
     Point2D predatorPosition = this->getPosition();
 
@@ -24,15 +24,15 @@ void Predator::moveToPrey(const Prey& prey, int maxDistance) {
     // Adjust distance based on the distance to the prey and the max distance
     int distance = std::min({ std::abs(dx), std::abs(dy), maxDistance });
 
-    Character::move(directionX * distance, directionY * distance);
+    Character::move(directionX * distance, directionY * distance, size);
 }
 
-void Predator::move(int direction, int distance) {
+void Predator::move(int direction, int distance, int size) {
     switch (direction) {
-    case 1: Character::move(0, -distance); break; // Up
-    case 2: Character::move(0, distance); break;  // Down
-    case 3: Character::move(-distance, 0); break; // Left
-    case 4: Character::move(distance, 0); break;  // Right
+    case 1: Character::move(0, -distance, size); break; // Up
+    case 2: Character::move(0, distance, size); break;  // Down
+    case 3: Character::move(-distance, 0, size); break; // Left
+    case 4: Character::move(distance, 0, size); break;  // Right
     default: break;
     }
 }
