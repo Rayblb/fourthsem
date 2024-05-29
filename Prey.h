@@ -1,13 +1,14 @@
-#pragma once
 #ifndef PREY_H
 #define PREY_H
+
 #include "Character.h"
 
 class Prey : public Character {
 public:
-    Prey(int x, int y);
-    ~Prey();
-    void Move(const std::string& Direction) ;
+    Prey(int x = 0, int y = 0);
+
+    void moveRandomly();
+    void move(int direction);
 };
 
-#endif
+#endif // PREY_H

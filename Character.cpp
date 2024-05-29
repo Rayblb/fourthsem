@@ -1,26 +1,12 @@
 #include "Character.h"
 
-Character::Character(int x, int y) {
+Character::Character(int x, int y) : position(x, y) {}
 
-	this ->x = x;
-	this ->y = y;
+void Character::move(int dx, int dy) {
+    position.x += dx;
+    position.y += dy;
+}
 
-};
-
-Character::~Character() {};
-
-void  Character::Move(const std::string& Direction) {
-	if (Direction == "Up") {
-		y--;
-	}
-	else if(Direction == "Down") {
-		y++;
-	}
-	else if (Direction == "Right") {
-		x++;
-	}
-	else if (Direction == "Left") {
-		x--;
-	}
-	std::cout << "the character is moving in " << Direction << std::endl;
+Point2D Character::getPosition() const {
+    return position;
 }

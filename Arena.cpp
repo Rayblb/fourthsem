@@ -1,53 +1,62 @@
-// Arena.cpp
 #include "Arena.h"
 #include <iostream>
-#include<cmath>
+#include <vector>
 
-Arena::Arena() {
-    // Initialize your characters here
-    player = new Predator(0, 0); // Assuming Predator is a subclass of Character
-    prey = new Prey(5, 5); // Assuming Prey is a subclass of Character
-    predator = new Predator(10, 10); // Assuming Predator is a subclass of Character
-
-    maxSteps = 100; // or whatever maximum steps you want
-    currentStep = 0;
-}
-
-Arena::~Arena() {
-    // Don't forget to delete your characters to avoid memory leaks
-    delete player;
-    delete prey;
-    delete predator;
-}
-
-void Arena::startGame() {
-    while (!isGameOver()) {
-        std::string direction = direction;
-        moveCharacters(direction);
-        currentStep++;
+Arena::Arena(int size, Prey prey, Predator predator, int maxSteps, int difficulty)
+    : size(size), prey(prey), predator(predator), steps(0), maxSteps(maxSteps) {
+    switch (difficulty) {
+    case 1: predatorMoveDistance = 1; break;
+    case 2: predatorMoveDistance = 2; break;
+    case 3: predatorMoveDistance = 3; break;
+    default: predatorMoveDistance = 1; break;
     }
 }
 
-void Arena::moveCharacters(const std::string& Direction) {
-    player->Move(Direction);
-    prey->Move(Direction);
-    predator->Move(Direction);
+void Arena::printArena() {
+    std::vector<std::vector<char>> grid(size, std::vector<char>(size, '.'));
+    Point2D preyPos = prey.getPosition();
+    Point2D predatorPos = predator.getPosition();
+
+    grid[preyPos.y][preyPos.x] = 'P';
+    grid[predatorPos.y][predatorPos.x] = '*';
+
+    for (const auto& row : grid) {
+        for (const auto& cell : row) {
+            std::cout << cell << ' ';
+        }
+        std::cout << std::endl;
+    }
+}
+
+void Arena::playGame() {
+    if (prey.getPosition().equals(predator.getPosition())) {
+        std::cout << "Predator wins!" << std::endl;
+    }
+    else if (steps >= maxSteps) {
+        std::cout << "Prey wins!" << std::endl;
+    }
+}
+
+void Arena::movePrey(int direction) {
+    prey.move(direction);
+    steps++;
+}
+
+void Arena::movePredator(int direction) {
+    predator.move(direction, predatorMoveDistance);
+    steps++;
+}
+
+void Arena::movePrey() {
+    prey.moveRandomly();
+    steps++;
+}
+
+void Arena::movePredator() {
+    predator.moveToPrey(prey, predatorMoveDistance);
+    steps++;
 }
 
 bool Arena::isGameOver() {
-        if (currentStep >= maxSteps) {
-            return true;
-        }
-
-        // Calculate the distance between the predator and the prey
-        int dx = predator->x - prey->x;
-        int dy = predator->y - prey->y;
-        double distance = sqrt(dx * dx + dy * dy);
-
-        // Check if the predator has caught the prey
-        if (distance < 1) {
-            return true;
-        }
-
-        return false;
-    }
+    return prey.getPosition().equals(predator.getPosition()) || steps >= maxSteps;
+}

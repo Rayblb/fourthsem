@@ -1,16 +1,18 @@
-
 #ifndef CHARACTER_H
 #define CHARACTER_H
-#include <iostream>
-#include<string>
 
+#include "Point2D.h"
 
-class Character{
+class Character {
+protected:
+    Point2D position;
+
 public:
-	int x;
-	int y;
-	Character(int x, int y);
-	virtual ~Character();
-	virtual void Move(const std::string& Direction);
+    Character(int x = 0, int y = 0);
+
+    void move(int dx, int dy); 
+
+    Point2D getPosition() const;
 };
-#endif
+
+#endif // CHARACTER_H

@@ -1,26 +1,32 @@
-// Arena.h
 #ifndef ARENA_H
 #define ARENA_H
 
-#include "Character.h"
 #include "Prey.h"
 #include "Predator.h"
+#include <vector>
 
 class Arena {
-public:
-    Arena();
-    ~Arena();
-
-    void startGame();
-    void moveCharacters(const std::string& Direction);
-    bool isGameOver();
-
 private:
-    Character* player;
-    Prey* prey;
-    Predator* predator;
-    int maxSteps;
-    int currentStep;
+    int size;
+    Prey prey;
+    Predator predator;
+    int steps;
+    const int maxSteps;
+    int predatorMoveDistance;
+
+public:
+    Arena(int size, Prey prey, Predator predator, int maxSteps = 7, int difficulty = 1);
+
+    void printArena();
+
+    void playGame();
+
+    void movePrey(int direction);
+    void movePredator(int direction);
+    void movePrey();
+    void movePredator();
+
+    bool isGameOver();
 };
 
 #endif // ARENA_H
